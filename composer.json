@@ -1,0 +1,19 @@
+{
+    "name": "linking-you/flex-menu-bundle",
+    "type": "symfony-bundle",
+    "description": "Create simple but flexible nav menus for symfony",
+    "autoload": {
+        "psr-4": {
+            "LinkingYou\\FlexMenuBundle\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.3",
+        "symfony/framework-bundle": "^7.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        }
+    }
+}
