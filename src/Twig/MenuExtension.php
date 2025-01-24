@@ -109,9 +109,10 @@ class MenuExtension extends AbstractExtension {
 
                     $classString = $class ? ' class="' . implode(' ', $class) . '"' : '';
                     $targetString = $child->getTarget() ? ' target="' . $child->getTarget() . '"' : '';
+                    $titleString = $child->getTitle() ? ' title="' . htmlentities($child->getTitle()) . '"' : '';
 
                     $tmp .= sprintf('<li%s>', $classString);
-                    $tmp .= sprintf('<a href="%s"%s>%s</a>', $child->getUrl(), $targetString, $child->getTitle());
+                    $tmp .= sprintf('<a href="%s"%s%s>%s</a>', $child->getUrl(), $targetString, $titleString, $child->getLabel());
                 }
 
                 // Next level

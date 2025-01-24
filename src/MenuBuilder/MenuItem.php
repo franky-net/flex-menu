@@ -11,15 +11,10 @@ class MenuItem {
 
     protected ?MenuItem $parent = null;
     protected Collection $children;
-
+    protected ?string $label = null;
     protected ?string $title = null;
-
-    protected ?string $subtitle = null;
-
     protected ?string $url = null;
-
     protected ?string $target = null;
-
     protected ?string $routename = null;
 
     private ?MenuServiceHelper $menuServiceHelper = null;
@@ -117,6 +112,17 @@ class MenuItem {
         return $this;
     }
 
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(?string $label): static
+    {
+        $this->label = $label;
+        return $this;
+    }
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -125,18 +131,6 @@ class MenuItem {
     public function setTitle(?string $title): static
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getSubtitle(): ?string
-    {
-        return $this->subtitle;
-    }
-
-    public function setSubtitle(?string $subtitle): static
-    {
-        $this->subtitle = $subtitle;
 
         return $this;
     }
@@ -195,13 +189,13 @@ class MenuItem {
         return $this;
     }
 
-    public static function createFromUrl(string $title, string $url): MenuItem
+    public static function createFromUrl(string $label, string $url): MenuItem
     {
-        return (new MenuItem())->setTitle($title)->setUrl($url);
+        return (new MenuItem())->setLabel($label)->setUrl($url);
     }
 
-    public static function createFromRouteName(string $title, string $routeName): MenuItem {
-        return (new MenuItem())->setTitle($title)->setRoutename($routeName);
+    public static function createFromRouteName(string $label, string $routeName): MenuItem {
+        return (new MenuItem())->setLabel($label)->setRoutename($routeName);
     }
 
 }
