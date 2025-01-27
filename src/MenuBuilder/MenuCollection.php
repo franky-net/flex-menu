@@ -1,5 +1,5 @@
 <?php
-namespace LinkingYou\FlexMenuBundle\MenuBuilder;
+namespace FrankyNet\FlexMenuBundle\MenuBuilder;
 class MenuCollection {
 
     protected array $items = [];

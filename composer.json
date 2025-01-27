@@ -1,10 +1,10 @@
 {
-    "name": "linking-you/flex-menu-bundle",
+    "name": "franky-net/flex-menu-bundle",
     "type": "symfony-bundle",
     "description": "Create simple but flexible nav menus for symfony",
     "autoload": {
         "psr-4": {
-            "LinkingYou\\FlexMenuBundle\\": "src/"
+            "FrankyNet\\FlexMenuBundle\\": "src/"
         }
     },
     "require": {

@@ -1,7 +1,7 @@
 <?php
-namespace LinkingYou\FlexMenuBundle\MenuBuilder;
+namespace FrankyNet\FlexMenuBundle\MenuBuilder;
 
-use LinkingYou\FlexMenuBundle\Service\MenuServiceHelper;
+use FrankyNet\FlexMenuBundle\Service\MenuServiceHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;

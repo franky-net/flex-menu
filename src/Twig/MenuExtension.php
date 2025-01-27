@@ -1,9 +1,9 @@
 <?php
-namespace LinkingYou\FlexMenuBundle\Twig;
+namespace FrankyNet\FlexMenuBundle\Twig;
 
-use LinkingYou\FlexMenuBundle\MenuBuilder\MenuCollection;
-use LinkingYou\FlexMenuBundle\MenuBuilder\MenuInterface;
-use LinkingYou\FlexMenuBundle\MenuBuilder\MenuItem;
+use FrankyNet\FlexMenuBundle\MenuBuilder\MenuCollection;
+use FrankyNet\FlexMenuBundle\MenuBuilder\MenuInterface;
+use FrankyNet\FlexMenuBundle\MenuBuilder\MenuItem;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Twig\Extension\AbstractExtension;

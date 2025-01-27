@@ -1,5 +1,5 @@
 <?php
-namespace LinkingYou\FlexMenuBundle\DependencyInjection;
+namespace FrankyNet\FlexMenuBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

@@ -1,5 +1,5 @@
 <?php
-namespace LinkingYou\FlexMenuBundle\MenuBuilder;
+namespace FrankyNet\FlexMenuBundle\MenuBuilder;
 
 interface MenuInterface {
 

@@ -1,5 +1,5 @@
 <?php
-namespace LinkingYou\FlexMenuBundle\Service;
+namespace FrankyNet\FlexMenuBundle\Service;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

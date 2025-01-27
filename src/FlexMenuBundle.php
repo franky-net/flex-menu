@@ -1,7 +1,7 @@
 <?php
-namespace LinkingYou\FlexMenuBundle;
+namespace FrankyNet\FlexMenuBundle;
 
-use LinkingYou\FlexMenuBundle\DependencyInjection\Compiler\FlexMenuTagCompilerPass;
+use FrankyNet\FlexMenuBundle\DependencyInjection\Compiler\FlexMenuTagCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

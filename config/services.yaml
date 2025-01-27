@@ -3,13 +3,13 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    LinkingYou\FlexMenuBundle\:
+    FrankyNet\FlexMenuBundle\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    LinkingYou\FlexMenuBundle\MenuBuilder\MenuCollection:
+    FrankyNet\FlexMenuBundle\MenuBuilder\MenuCollection:
         arguments:
             - !tagged_iterator 'linking_you.flex_menu'

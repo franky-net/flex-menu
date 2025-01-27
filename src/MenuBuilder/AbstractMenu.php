@@ -1,7 +1,7 @@
 <?php
-namespace LinkingYou\FlexMenuBundle\MenuBuilder;
+namespace FrankyNet\FlexMenuBundle\MenuBuilder;
 
-use LinkingYou\FlexMenuBundle\Service\MenuServiceHelper;
+use FrankyNet\FlexMenuBundle\Service\MenuServiceHelper;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractMenu implements MenuInterface {
