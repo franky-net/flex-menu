@@ -1,10 +1,15 @@
 <?php
 namespace FrankyNet\FlexMenuBundle\MenuBuilder;
 
+use FrankyNet\FlexMenuBundle\Attribute\BelongsTo;
 use FrankyNet\FlexMenuBundle\Service\MenuServiceHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
+use ReflectionAttribute;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MenuItem {
@@ -52,10 +57,54 @@ class MenuItem {
         return false;
     }
 
+    /**
+     * @return bool
+     * @throws ReflectionException
+     */
+    public function isBelongsTo(): bool {
+
+        if ($this->menuServiceHelper) {
+            $request = $this->menuServiceHelper->getRequestStack()->getMainRequest();
+            $route = $request->attributes->get('_route');
+
+            // "Route"-object for current route
+            $currentRoute = $this->menuServiceHelper->getRouter()->getRouteCollection()->get($route);
+            $controller = $currentRoute->getDefault('_controller');
+
+            // Check method
+            $reflectionMethod = new ReflectionMethod($controller);
+            $attributes = $reflectionMethod->getAttributes(BelongsTo::class);
+            if ($this->belongsToMatches($attributes)) {
+                return true;
+            }
+
+            // Check class
+            $parts = explode('::', $controller);
+            $class = $parts[0];
+            $reflectionClass = new ReflectionClass($class);
+            $attributes = $reflectionClass->getAttributes(BelongsTo::class);
+            if ($this->belongsToMatches($attributes)) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     * @throws ReflectionException
+     */
     public function isActivePath(): bool
     {
+
         if ($this->isActive()) {
             return false;
+        }
+
+        if ($this->isBelongsTo()) {
+            return true;
         }
 
         return $this->hasActiveChildren($this);
@@ -65,7 +114,7 @@ class MenuItem {
 
         // check direct childs
         foreach ($menuItem->children as $child) {
-            if ($child->isActive($menuItem)) {
+            if ($child->isActive($menuItem) || $child->isBelongsTo($menuItem)) {
                 return true;
             }
         }
@@ -196,6 +245,29 @@ class MenuItem {
 
     public static function createFromRouteName(string $label, string $routeName): MenuItem {
         return (new MenuItem())->setLabel($label)->setRoutename($routeName);
+    }
+
+    /**
+     * @param array $attributes
+     * @return bool
+     */
+    private function belongsToMatches(array $attributes): bool
+    {
+        if (count($attributes) > 0) {
+            $belongsTo = current($attributes);
+            if ($belongsTo instanceof ReflectionAttribute) {
+                $arguments = $belongsTo->getArguments();
+                if (count($arguments) > 0) {
+                    $argument = current($arguments);
+
+                    if ($argument === $this->routename) {
+                        return true;
+                    }
+                }
+
+            }
+        }
+        return false;
     }
 
 }
