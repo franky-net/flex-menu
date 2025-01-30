@@ -4,6 +4,7 @@ namespace FrankyNet\FlexMenuBundle\Twig;
 use FrankyNet\FlexMenuBundle\MenuBuilder\MenuCollection;
 use FrankyNet\FlexMenuBundle\MenuBuilder\MenuInterface;
 use FrankyNet\FlexMenuBundle\MenuBuilder\MenuItem;
+use Nette\Utils\Html;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Twig\Extension\AbstractExtension;
@@ -90,8 +91,13 @@ class MenuExtension extends AbstractExtension {
             $skipLevel = true;
         }
 
+        // create <ul>
+        $htmlUl = Html::el('ul')
+            ->class('level_l' . $item->getLevel())
+        ;
+
         if (!$skipLevel) {
-            $tmp .= sprintf('<ul class="level_%s">', $item->getLevel());
+            $tmp .= $htmlUl->startTag();
         }
         foreach ($item->getChildren() as $child) {
             if ($child instanceof MenuItem) {
@@ -107,12 +113,30 @@ class MenuExtension extends AbstractExtension {
                         $class[] = 'active-path';
                     }
 
-                    $classString = $class ? ' class="' . implode(' ', $class) . '"' : '';
-                    $targetString = $child->getTarget() ? ' target="' . $child->getTarget() . '"' : '';
-                    $titleString = $child->getTitle() ? ' title="' . htmlentities($child->getTitle()) . '"' : '';
+                    // create <li>
+                    $htmlLi = Html::el('li');
+                    if (count($class) > 0) {
+                        $htmlLi->class(implode(' ', $class));
+                    }
+                    $tmp .= $htmlLi->startTag();
 
-                    $tmp .= sprintf('<li%s>', $classString);
-                    $tmp .= sprintf('<a href="%s"%s%s>%s</a>', $child->getUrl(), $targetString, $titleString, $child->getLabel());
+                    // create <a> or <span>
+                    if ($child->getUrl()) {
+                        $htmlLink = Html::el('a')
+                            ->href($child->getUrl());
+                    } else {
+                        $htmlLink = Html::el('span');
+                    }
+                    if ($child->getTarget()) {
+                        $htmlLink->target($child->getTarget());
+                    }
+                    if ($child->getTitle()) {
+                        $htmlLink->title($child->getTitle());
+                    }
+                    $htmlLink->setText($child->getLabel());
+
+                    $tmp .= $htmlLink;
+
                 }
 
                 // Next level
@@ -121,13 +145,13 @@ class MenuExtension extends AbstractExtension {
                 }
 
                 if (!$skipLevel) {
-                    $tmp .= '</li>';
+                    $tmp .= $htmlLi->endTag();
                 }
 
             }
         }
         if (!$skipLevel) {
-            $tmp .= '</ul>';
+            $tmp .= $htmlUl->endTag();
         }
 
         return $tmp;
