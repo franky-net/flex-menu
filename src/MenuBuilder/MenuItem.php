@@ -20,6 +20,8 @@ class MenuItem {
     protected ?string $title = null;
     protected ?string $url = null;
     protected ?string $target = null;
+
+    protected ?string $class = null;
     protected ?string $routename = null;
 
     private ?MenuServiceHelper $menuServiceHelper = null;
@@ -240,6 +242,18 @@ class MenuItem {
     public function setRoutename(?string $routename): static
     {
         $this->routename = $routename;
+
+        return $this;
+    }
+
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
+
+    public function setClass(?string $class): static
+    {
+        $this->class = $class;
 
         return $this;
     }

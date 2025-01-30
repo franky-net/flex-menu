@@ -133,6 +133,9 @@ class MenuExtension extends AbstractExtension {
                     if ($child->getTitle()) {
                         $htmlLink->title($child->getTitle());
                     }
+                    if ($child->getClass()) {
+                        $htmlLink->class($child->getClass());
+                    }
                     $htmlLink->setText($child->getLabel());
 
                     $tmp .= $htmlLink;
