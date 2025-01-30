@@ -161,6 +161,19 @@ class MenuItem {
         return $this;
     }
 
+    public function addChilds(Collection $children): static
+    {
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
+        return $this;
+    }
+
+    public function getChilds(): Collection
+    {
+        return $this->children;
+    }
+
     public function getLabel(): ?string
     {
         return $this->label;
