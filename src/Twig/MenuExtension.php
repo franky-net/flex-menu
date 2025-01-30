@@ -93,7 +93,7 @@ class MenuExtension extends AbstractExtension {
 
         // create <ul>
         $htmlUl = Html::el('ul')
-            ->class('level_l' . $item->getLevel())
+            ->class('level_' . $item->getLevel())
         ;
 
         if (!$skipLevel) {
