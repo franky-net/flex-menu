@@ -9,7 +9,8 @@
     },
     "require": {
         "php": "^8.3",
-        "symfony/framework-bundle": "^7.0|^6.4"
+        "symfony/framework-bundle": "^7.0|^6.4",
+        "nette/utils": "^4.0"
     },
     "extra": {
         "branch-alias": {
