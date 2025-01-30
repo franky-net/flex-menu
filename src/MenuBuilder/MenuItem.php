@@ -238,7 +238,7 @@ class MenuItem {
         return $this;
     }
 
-    public static function createFromUrl(string $label, string $url): MenuItem
+    public static function createFromUrl(string $label, string $url = null): MenuItem
     {
         return (new MenuItem())->setLabel($label)->setUrl($url);
     }
