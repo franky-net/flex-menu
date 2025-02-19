@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class FlexMenuTagCompilerPass implements CompilerPassInterface {
     public function process(ContainerBuilder $container): void
     {
-        $tagName = 'linking_you.flex_menu';
+        $tagName = 'franky_net.flex_menu';
 
         foreach ($container->getDefinitions() as $definition) {
             $class = $definition->getClass();

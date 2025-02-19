@@ -12,4 +12,4 @@ services:
 
     FrankyNet\FlexMenuBundle\MenuBuilder\MenuCollection:
         arguments:
-            - !tagged_iterator 'linking_you.flex_menu'
+            - !tagged_iterator 'franky_net.flex_menu'
