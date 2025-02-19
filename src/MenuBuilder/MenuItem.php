@@ -11,6 +11,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MenuItem {
 
@@ -23,6 +24,8 @@ class MenuItem {
 
     protected ?string $class = null;
     protected ?string $routename = null;
+
+    protected bool $showWithoutAccess = false;
 
     private ?MenuServiceHelper $menuServiceHelper = null;
 
@@ -59,10 +62,6 @@ class MenuItem {
         return false;
     }
 
-    /**
-     * @return bool
-     * @throws ReflectionException
-     */
     public function isBelongsTo(): bool {
 
         if ($this->menuServiceHelper) {
@@ -74,7 +73,11 @@ class MenuItem {
             $controller = $currentRoute->getDefault('_controller');
 
             // Check method
-            $reflectionMethod = new ReflectionMethod($controller);
+            try {
+                $reflectionMethod = new ReflectionMethod($controller);
+            } catch (ReflectionException) {
+                return false;
+            }
             $attributes = $reflectionMethod->getAttributes(BelongsTo::class);
             if ($this->belongsToMatches($attributes)) {
                 return true;
@@ -83,7 +86,12 @@ class MenuItem {
             // Check class
             $parts = explode('::', $controller);
             $class = $parts[0];
-            $reflectionClass = new ReflectionClass($class);
+            try {
+                $reflectionClass = new ReflectionClass($class);
+            } catch (ReflectionException) {
+                return false;
+            }
+
             $attributes = $reflectionClass->getAttributes(BelongsTo::class);
             if ($this->belongsToMatches($attributes)) {
                 return true;
@@ -94,10 +102,41 @@ class MenuItem {
         return false;
     }
 
-    /**
-     * @return bool
-     * @throws ReflectionException
-     */
+    public function hideItem(): bool
+    {
+
+        if ($this->isShowWithoutAccess()) {
+            return false;
+        }
+
+        if ($this->routename) {
+
+            $route = $this->menuServiceHelper->getRouter()->getRouteCollection()->get($this->routename);
+            if (!$route) {
+                return false;
+            }
+
+            $controller = $route->getDefault('_controller');
+
+            try {
+                $reflectionMethod = new ReflectionMethod($controller);
+            } catch (ReflectionException) {
+                return false;
+            }
+            $attributes = $reflectionMethod->getAttributes(IsGranted::class);
+            foreach ($attributes as $attribute) {
+                foreach ($attribute->getArguments() as $argument) {
+                    if (!$this->menuServiceHelper->getAuthorizationChecker()->isGranted($argument)) {
+                        return true;
+                    }
+                }
+            }
+
+        }
+
+        return false;
+    }
+
     public function isActivePath(): bool
     {
 
@@ -254,6 +293,18 @@ class MenuItem {
     public function setClass(?string $class): static
     {
         $this->class = $class;
+
+        return $this;
+    }
+
+    public function isShowWithoutAccess(): bool
+    {
+        return $this->showWithoutAccess;
+    }
+
+    public function setShowWithoutAccess(bool $showWithoutAccess): static
+    {
+        $this->showWithoutAccess = $showWithoutAccess;
 
         return $this;
     }

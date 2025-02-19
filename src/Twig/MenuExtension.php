@@ -95,14 +95,15 @@ class MenuExtension extends AbstractExtension {
         $htmlUl = Html::el('ul')
             ->class('level_' . $item->getLevel())
         ;
-
         if (!$skipLevel) {
             $tmp .= $htmlUl->startTag();
         }
+
         foreach ($item->getChildren() as $child) {
+
             if ($child instanceof MenuItem) {
 
-                if (!$skipLevel) {
+                if (!$skipLevel && !$child->hideItem()) {
                     $class = [];
 
                     if ($child->isActive()) {
@@ -147,12 +148,16 @@ class MenuExtension extends AbstractExtension {
                     $tmp .= $this->renderElements($child);
                 }
 
-                if (!$skipLevel) {
-                    $tmp .= $htmlLi->endTag();
+                if (!$skipLevel && !$child->hideItem()) {
+                    if (isset($htmlLi) && $htmlLi instanceof Html) {
+                        $tmp .= $htmlLi->endTag();
+                    }
+
                 }
 
             }
         }
+
         if (!$skipLevel) {
             $tmp .= $htmlUl->endTag();
         }
