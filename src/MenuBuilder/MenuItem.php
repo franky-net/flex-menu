@@ -244,7 +244,7 @@ class MenuItem {
             return $this->url;
         }
 
-        if ($this->routename && $this->menuServiceHelper && $this->menuServiceHelper->getUrlGenerator() instanceof UrlGeneratorInterface) {
+        if ($this->routename && $this->menuServiceHelper) {
             try {
                 return $this->menuServiceHelper->getUrlGenerator()->generate($this->routename);
             } catch (Exception) {
@@ -316,7 +316,7 @@ class MenuItem {
         return $this;
     }
 
-    public static function createFromUrl(string $label, string $url = null): MenuItem
+    public static function createFromUrl(string $label, ?string $url = null): MenuItem
     {
         return (new MenuItem())->setLabel($label)->setUrl($url);
     }

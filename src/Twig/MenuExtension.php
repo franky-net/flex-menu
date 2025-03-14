@@ -149,7 +149,7 @@ class MenuExtension extends AbstractExtension {
                 }
 
                 if (!$skipLevel && !$child->hideItem()) {
-                    if (isset($htmlLi) && $htmlLi instanceof Html) {
+                    if (isset($htmlLi)) {
                         $tmp .= $htmlLi->endTag();
                     }
 
