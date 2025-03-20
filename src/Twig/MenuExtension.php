@@ -153,6 +153,14 @@ class MenuExtension extends AbstractExtension {
                         $tmp .= $htmlLi->endTag();
                     }
 
+                    // Render title as text
+                    if ($child->isRenderTitleAsText()) {
+                        $titleDiv = Html::el('div');
+                        $titleDiv->class = 'title';
+                        $titleDiv->setText($child->getTitle());
+                        $tmp .= $titleDiv;
+                    }
+
                 }
 
             }

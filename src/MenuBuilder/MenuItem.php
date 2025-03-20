@@ -27,6 +27,8 @@ class MenuItem {
 
     protected bool $showWithoutAccess = false;
 
+    protected bool $renderTitleAsText = false;
+
     private ?MenuServiceHelper $menuServiceHelper = null;
 
     public function __construct()
@@ -305,6 +307,18 @@ class MenuItem {
     public function setShowWithoutAccess(bool $showWithoutAccess): static
     {
         $this->showWithoutAccess = $showWithoutAccess;
+
+        return $this;
+    }
+
+    public function isRenderTitleAsText(): bool
+    {
+        return $this->renderTitleAsText;
+    }
+
+    public function setRenderTitleAsText(bool $renderTitleAsText): static
+    {
+        $this->renderTitleAsText = $renderTitleAsText;
 
         return $this;
     }
