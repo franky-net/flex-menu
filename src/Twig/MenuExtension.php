@@ -150,15 +150,16 @@ class MenuExtension extends AbstractExtension {
 
                 if (!$skipLevel && !$child->hideItem()) {
                     if (isset($htmlLi)) {
-                        $tmp .= $htmlLi->endTag();
-                    }
 
-                    // Render title as text
-                    if ($child->isRenderTitleAsText()) {
-                        $titleDiv = Html::el('div');
-                        $titleDiv->class = 'title';
-                        $titleDiv->setText($child->getTitle());
-                        $tmp .= $titleDiv;
+                        // Render title as text
+                        if ($child->isRenderTitleAsText()) {
+                            $titleDiv = Html::el('div');
+                            $titleDiv->class = 'title';
+                            $titleDiv->setText($child->getTitle());
+                            $tmp .= $titleDiv;
+                        }
+
+                        $tmp .= $htmlLi->endTag();
                     }
 
                 }
