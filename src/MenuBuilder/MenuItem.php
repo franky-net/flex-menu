@@ -29,6 +29,8 @@ class MenuItem {
 
     protected bool $renderTitleAsText = false;
 
+    protected  bool $renderAsActive = false;
+
     private ?MenuServiceHelper $menuServiceHelper = null;
 
     public function __construct()
@@ -52,6 +54,10 @@ class MenuItem {
 
     public function isActive(): bool
     {
+        if ($this->renderAsActive) {
+            return true;
+        }
+
         if ($this->menuServiceHelper) {
             $request = $this->menuServiceHelper->getRequestStack()->getMainRequest();
             $route = $request->attributes->get('_route');
@@ -320,6 +326,17 @@ class MenuItem {
     {
         $this->renderTitleAsText = $renderTitleAsText;
 
+        return $this;
+    }
+
+    public function isRenderAsActive(): bool
+    {
+        return $this->renderAsActive;
+    }
+
+    public function setRenderAsActive(bool $renderAsActive): static
+    {
+        $this->renderAsActive = $renderAsActive;
         return $this;
     }
 
