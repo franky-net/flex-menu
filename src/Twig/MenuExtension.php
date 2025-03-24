@@ -92,9 +92,18 @@ class MenuExtension extends AbstractExtension {
         }
 
         // create <ul>
+        $class = [];
         $htmlUl = Html::el('ul')
             ->class('level_' . $item->getLevel())
         ;
+        if ($item->isActive()) {
+            $class[] = 'active';
+        }
+        if ($item->isActivePath()) {
+            $class[] = 'active-path';
+        }
+        $htmlUl->class(implode(' ', $class));
+
         if (!$skipLevel) {
             $tmp .= $htmlUl->startTag();
         }
