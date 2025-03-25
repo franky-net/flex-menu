@@ -13,3 +13,5 @@ services:
     FrankyNet\FlexMenuBundle\MenuBuilder\MenuCollection:
         arguments:
             - !tagged_iterator 'franky_net.flex_menu'
+    Symfony\Component\Security\Http\AccessMapInterface:
+        alias: security.access_map

@@ -10,7 +10,9 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MenuItem {
@@ -126,6 +128,7 @@ class MenuItem {
 
             $controller = $route->getDefault('_controller');
 
+            // Check IsGrantend from Action
             try {
                 $reflectionMethod = new ReflectionMethod($controller);
             } catch (ReflectionException) {
@@ -140,9 +143,29 @@ class MenuItem {
                 }
             }
 
+            // Check firewall
+            $roles = $this->getRolesForRoute($route);
+            if (is_array($roles)) {
+                foreach ($roles as $role) {
+                    if (!$this->menuServiceHelper->getAuthorizationChecker()->isGranted($role)) {
+                        return true;
+                    }
+                }
+            }
+
         }
 
         return false;
+    }
+
+    private function getRolesForRoute(Route $route): ?array
+    {
+        $path = $route->getPath();
+        $methods = $route->getMethods();
+        $request = Request::create($path, $methods[0] ?? 'GET');
+        [$roles] = $this->menuServiceHelper->getAccessMap()->getPatterns($request);
+
+        return $roles ?: null;
     }
 
     public function isActivePath(): bool
