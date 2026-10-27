@@ -84,7 +84,9 @@ class MenuItem {
 
             // Check method
             try {
-                $reflectionMethod = new ReflectionMethod($controller);
+                $reflectionMethod = str_contains($controller, '::')
+                    ? ReflectionMethod::createFromMethodName($controller)
+                    : new ReflectionMethod($controller, '__invoke');
             } catch (ReflectionException) {
                 return false;
             }
@@ -130,7 +132,9 @@ class MenuItem {
 
             // Check IsGrantend from Action
             try {
-                $reflectionMethod = new ReflectionMethod($controller);
+                $reflectionMethod = str_contains($controller, '::')
+                    ? ReflectionMethod::createFromMethodName($controller)
+                    : new ReflectionMethod($controller, '__invoke');
             } catch (ReflectionException) {
                 return false;
             }
@@ -186,7 +190,7 @@ class MenuItem {
 
         // check direct childs
         foreach ($menuItem->children as $child) {
-            if ($child->isActive($menuItem) || $child->isBelongsTo($menuItem)) {
+            if ($child->isActive() || $child->isBelongsTo()) {
                 return true;
             }
         }
